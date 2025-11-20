@@ -18,6 +18,13 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
      */
     List<Registration> findByUserId(Long userId);
 
+    /**
+     * Trouve toutes les inscriptions d'un événement
+     * @param eventId ID de l'événement
+     * @return Liste des inscriptions
+     */
+    List<Registration> findByEventId(Long eventId);
+
     
 }
 
