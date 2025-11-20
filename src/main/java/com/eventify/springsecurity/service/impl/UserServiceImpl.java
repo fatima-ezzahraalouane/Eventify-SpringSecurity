@@ -87,5 +87,24 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    
+    @Override
+    @Transactional
+    public UserResponseDTO changeUserRole(Long userId, ChangeRoleRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé avec l'ID : " + userId));
+
+        try {
+            Role newRole = Role.valueOf(request.getRole().toUpperCase());
+            // verifier que le role est valide (commence par ROLE_)
+            if (!newRole.name().startsWith("ROLE_")) {
+                throw new InvalidRoleException("Le rôle doit être au format ROLE_XXX");
+            }
+            user.setRole(newRole);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidRoleException("Rôle invalide : " + request.getRole() + ". Les rôles valides sont : ROLE_USER, ROLE_ADMIN, ROLE_ORGANIZER");
+        }
+
+        User updated = userRepository.save(user);
+        return userMapper.toDto(updated);
+    }
 }
