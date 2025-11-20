@@ -41,5 +41,9 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    // Relations bidirectionnelles
+    @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> organizedEvents = new ArrayList<>();
+
     
 }
