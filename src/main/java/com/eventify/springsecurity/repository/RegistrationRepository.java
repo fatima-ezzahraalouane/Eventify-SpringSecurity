@@ -33,6 +33,14 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
      */
     Optional<Registration> findByUserIdAndEventId(Long userId, Long eventId);
 
+    /**
+     * Vérifie si un utilisateur est déjà inscrit à un événement
+     * @param userId ID de l'utilisateur
+     * @param eventId ID de l'événement
+     * @return true si l'inscription existe
+     */
+    boolean existsByUserIdAndEventId(Long userId, Long eventId);
+
     
 }
 
