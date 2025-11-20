@@ -25,6 +25,14 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
      */
     List<Registration> findByEventId(Long eventId);
 
+    /**
+     * Trouve une inscription spécifique par utilisateur et événement
+     * @param userId ID de l'utilisateur
+     * @param eventId ID de l'événement
+     * @return Inscription trouvée
+     */
+    Optional<Registration> findByUserIdAndEventId(Long userId, Long eventId);
+
     
 }
 
