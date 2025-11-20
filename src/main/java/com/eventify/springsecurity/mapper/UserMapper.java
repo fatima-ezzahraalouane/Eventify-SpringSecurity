@@ -12,8 +12,11 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "role", expression = "java(defaultRole())")
+    @Mapping(target = "organizedEvents", ignore = true)
+    @Mapping(target = "registrations", ignore = true)
     User toEntity(UserCreateDTO dto);
 
+    @Mapping(target = "role", expression = "java(user.getRole().name())")
     UserResponseDTO toDto(User user);
 
     default Role defaultRole() {
