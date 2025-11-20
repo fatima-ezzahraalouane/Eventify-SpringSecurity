@@ -44,6 +44,12 @@ public class Event {
     @Column(nullable = false)
     private Integer capacity;
 
+    // Relation ManyToOne avec User (organisateur)
+    @NotNull(message = "L'organisateur est requis")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizer_id", nullable = false)
+    private User organizer;
+
     
 }
 
