@@ -1,5 +1,6 @@
 package com.eventify.springsecurity.entity;
 
+import com.eventify.springsecurity.enums.RegistrationStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
