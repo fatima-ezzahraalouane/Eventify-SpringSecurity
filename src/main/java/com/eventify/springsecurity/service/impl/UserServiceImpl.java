@@ -32,5 +32,17 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
+    @Transactional
+    public UserResponseDTO createUser(UserCreateDTO dto) {
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new UsernameAlreadyExistsException("Un utilisateur avec cet email existe déjà");
+        }
+        User user = userMapper.toEntity(dto);
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        User saved = userRepository.save(user);
+        return userMapper.toDto(saved);
+    }
+
     
 }
