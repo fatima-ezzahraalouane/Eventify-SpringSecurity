@@ -16,6 +16,12 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      */
     List<Event> findByOrganizerId(Long organizerId);
 
-    
+    /**
+     * Vérifie si un événement existe pour un organisateur donné
+     * @param eventId ID de l'événement
+     * @param organizerId ID de l'organisateur
+     * @return true si l'événement existe et appartient à l'organisateur
+     */
+    boolean existsByIdAndOrganizerId(Long eventId, Long organizerId);
 }
 
