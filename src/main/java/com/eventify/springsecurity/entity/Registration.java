@@ -2,6 +2,7 @@ package com.eventify.springsecurity.entity;
 
 import com.eventify.springsecurity.enums.RegistrationStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,15 +24,12 @@ public class Registration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
-    @Column(name = "event_id", nullable = false)
-    private Long eventId;
+    
 
     @Column(name = "registered_at", nullable = false, updatable = false)
     private LocalDateTime registeredAt;
 
+    @NotNull(message = "Le statut est requis")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
     private RegistrationStatus status;
@@ -45,6 +43,5 @@ public class Registration {
             status = RegistrationStatus.REGISTERED;
         }
     }
-
 }
 
