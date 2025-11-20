@@ -24,6 +24,12 @@ public class Registration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Relation ManyToOne avec User
+    @NotNull(message = "L'utilisateur est requis")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     
 
     @Column(name = "registered_at", nullable = false, updatable = false)
