@@ -50,16 +50,10 @@ databaseChangeLog:
             columns:
               - column:
                   name: event_id
-        - createUniqueConstraint:
+        - addUniqueConstraint:
             constraintName: uk_registrations_user_event
             tableName: registrations
-            columns:
-              - column:
-                  name: user_id
-              - column:
-                  name: event_id
-        - addCheckConstraint:
-            constraintName: ck_registrations_status
-            tableName: registrations
-            checkCondition: "status IN ('REGISTERED', 'CANCELLED')"
+            columnNames: user_id, event_id
+        - sql:
+            sql: ALTER TABLE registrations ADD CONSTRAINT ck_registrations_status CHECK (status IN ('REGISTERED', 'CANCELLED'))
 
