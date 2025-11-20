@@ -18,7 +18,32 @@ import java.time.LocalDateTime;
 @Builder
 public class Registration {
 
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(name = "event_id", nullable = false)
+    private Long eventId;
+
+    @Column(name = "registered_at", nullable = false, updatable = false)
+    private LocalDateTime registeredAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private RegistrationStatus status;
+
+    @PrePersist
+    protected void onCreate() {
+        if (registeredAt == null) {
+            registeredAt = LocalDateTime.now();
+        }
+        if (status == null) {
+            status = RegistrationStatus.REGISTERED;
+        }
+    }
 
 }
 
