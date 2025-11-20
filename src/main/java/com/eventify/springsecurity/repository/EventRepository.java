@@ -9,6 +9,13 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
+    /**
+     * Trouve tous les événements organisés par un utilisateur
+     * @param organizerId ID de l'organisateur
+     * @return Liste des événements organisés
+     */
+    List<Event> findByOrganizerId(Long organizerId);
+
     
 }
 
