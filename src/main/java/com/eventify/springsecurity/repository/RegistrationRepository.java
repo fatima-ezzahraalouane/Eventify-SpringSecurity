@@ -48,6 +48,11 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
      */
     long countByEventIdAndStatus(Long eventId, RegistrationStatus status);
 
-    
+    /**
+     * Trouve toutes les inscriptions actives (REGISTERED) d'un utilisateur
+     * @param userId ID de l'utilisateur
+     * @return Liste des inscriptions actives
+     */
+    List<Registration> findByUserIdAndStatus(Long userId, RegistrationStatus status);
 }
 
