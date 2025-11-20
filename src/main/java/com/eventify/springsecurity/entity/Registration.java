@@ -30,7 +30,11 @@ public class Registration {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    
+    // Relation ManyToOne avec Event
+    @NotNull(message = "L'événement est requis")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event;
 
     @Column(name = "registered_at", nullable = false, updatable = false)
     private LocalDateTime registeredAt;
