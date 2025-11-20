@@ -16,7 +16,27 @@ import java.time.LocalDateTime;
 @Builder
 public class Event {
 
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 255)
+    private String title;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Column(length = 255)
+    private String location;
+
+    @Column(name = "date_time", nullable = false)
+    private LocalDateTime dateTime;
+
+    @Column(nullable = false)
+    private Integer capacity;
+
+    @Column(name = "organizer_id", nullable = false)
+    private Long organizerId;
 
 }
 
