@@ -41,6 +41,13 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
      */
     boolean existsByUserIdAndEventId(Long userId, Long eventId);
 
+    /**
+     * Compte le nombre d'inscriptions actives (REGISTERED) pour un événement
+     * @param eventId ID de l'événement
+     * @return Nombre d'inscriptions actives
+     */
+    long countByEventIdAndStatus(Long eventId, RegistrationStatus status);
+
     
 }
 
