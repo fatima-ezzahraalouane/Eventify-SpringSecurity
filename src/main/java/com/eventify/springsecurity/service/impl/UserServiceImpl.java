@@ -59,5 +59,24 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
 
+    @Override
+    @Transactional
+    public UserResponseDTO updateUser(Long id, UserCreateDTO dto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé avec l'ID : " + id));
+
+        // verifier si l'email existe deja pour un autre utilisateur
+        if (!user.getEmail().equals(dto.getEmail()) && userRepository.existsByEmail(dto.getEmail())) {
+            throw new UsernameAlreadyExistsException("Un utilisateur avec cet email existe déjà");
+        }
+
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        User updated = userRepository.save(user);
+        return userMapper.toDto(updated);
+    }
+
     
 }
