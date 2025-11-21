@@ -31,6 +31,17 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @PostMapping("/events/{id}/register")
+    public ResponseEntity<RegistrationResponseDTO> registerToEvent(
+            @PathVariable Long id,
+            Authentication authentication) {
+        String email = ((UserDetails) authentication.getPrincipal()).getUsername();
+        UserResponseDTO user = userService.getUserByEmail(email);
+        
+        RegistrationResponseDTO registration = registrationService.registerToEvent(user.getId(), id);
+        return new ResponseEntity<>(registration, HttpStatus.CREATED);
+    }
+
     
 }
 
