@@ -35,6 +35,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .build();
     }
 
-    
+    private Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
+    }
 }
 
