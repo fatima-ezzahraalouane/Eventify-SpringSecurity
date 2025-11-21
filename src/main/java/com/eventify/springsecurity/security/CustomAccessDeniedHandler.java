@@ -23,6 +23,22 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         this.objectMapper = objectMapper;
     }
 
-    
+    @Override
+    public void handle(HttpServletRequest request,
+                      HttpServletResponse response,
+                      AccessDeniedException accessDeniedException) throws IOException, ServletException {
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.FORBIDDEN.value())
+                .error("Forbidden")
+                .message("Vous n'avez pas les permissions nécessaires pour accéder à cette ressource.")
+                .path(request.getRequestURI())
+                .build();
+
+        response.setStatus(HttpStatus.FORBIDDEN.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+        objectMapper.writeValue(response.getWriter(), error);
+    }
 }
 
