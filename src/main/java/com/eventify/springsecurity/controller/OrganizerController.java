@@ -36,6 +36,18 @@ public class OrganizerController {
         return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
     }
 
+    @PutMapping("/events/{id}")
+    public ResponseEntity<EventResponseDTO> updateEvent(
+            @PathVariable Long id,
+            @Valid @RequestBody EventUpdateDTO dto,
+            Authentication authentication) {
+        String email = ((UserDetails) authentication.getPrincipal()).getUsername();
+        UserResponseDTO user = userService.getUserByEmail(email);
+        
+        EventResponseDTO updatedEvent = eventService.updateEvent(id, dto, user.getId());
+        return ResponseEntity.ok(updatedEvent);
+    }
+
     
 }
 
