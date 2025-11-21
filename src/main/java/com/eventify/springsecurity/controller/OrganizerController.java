@@ -25,6 +25,17 @@ public class OrganizerController {
         this.userService = userService;
     }
 
+    @PostMapping("/events")
+    public ResponseEntity<EventResponseDTO> createEvent(
+            @Valid @RequestBody EventCreateDTO dto,
+            Authentication authentication) {
+        String email = ((UserDetails) authentication.getPrincipal()).getUsername();
+        UserResponseDTO user = userService.getUserByEmail(email);
+        
+        EventResponseDTO createdEvent = eventService.createEvent(dto, user.getId());
+        return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
+    }
+
     
 }
 
