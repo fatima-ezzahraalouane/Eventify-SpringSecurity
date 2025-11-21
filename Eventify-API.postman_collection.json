@@ -1,0 +1,407 @@
+{
+	"info": {
+		"_postman_id": "eventify-api-collection",
+		"name": "Eventify API - Spring Security",
+		"description": "Collection complète pour tester l'API Eventify avec authentification Basic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Public Endpoints",
+			"item": [
+				{
+					"name": "Inscription utilisateur",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/public/users",
+							"host": ["{{base_url}}"],
+							"path": ["api", "public", "users"]
+						},
+						"description": "Création d'un nouvel utilisateur (inscription). Le rôle par défaut est ROLE_USER."
+					},
+					"response": []
+				},
+				{
+					"name": "Liste des événements publics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/public/events",
+							"host": ["{{base_url}}"],
+							"path": ["api", "public", "events"]
+						},
+						"description": "Récupère la liste de tous les événements publics (sans authentification)."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints accessibles sans authentification"
+		},
+		{
+			"name": "User Endpoints",
+			"item": [
+				{
+					"name": "Profil utilisateur",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{user_email}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{user_password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/profile",
+							"host": ["{{base_url}}"],
+							"path": ["api", "user", "profile"]
+						},
+						"description": "Récupère le profil de l'utilisateur authentifié. Nécessite ROLE_USER."
+					},
+					"response": []
+				},
+				{
+					"name": "S'inscrire à un événement",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{user_email}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{user_password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/events/{{event_id}}/register",
+							"host": ["{{base_url}}"],
+							"path": ["api", "user", "events", "{{event_id}}", "register"]
+						},
+						"description": "Inscrit l'utilisateur authentifié à un événement. Nécessite ROLE_USER."
+					},
+					"response": []
+				},
+				{
+					"name": "Mes inscriptions",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{user_email}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{user_password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/registrations",
+							"host": ["{{base_url}}"],
+							"path": ["api", "user", "registrations"]
+						},
+						"description": "Récupère toutes les inscriptions de l'utilisateur authentifié. Nécessite ROLE_USER."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints nécessitant ROLE_USER"
+		},
+		{
+			"name": "Organizer Endpoints",
+			"item": [
+				{
+					"name": "Créer un événement",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{organizer_email}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{organizer_password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Conférence Spring Security\",\n  \"description\": \"Une conférence sur la sécurité avec Spring Security\",\n  \"location\": \"Paris, France\",\n  \"dateTime\": \"2025-12-25T14:00:00\",\n  \"capacity\": 100\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/organizer/events",
+							"host": ["{{base_url}}"],
+							"path": ["api", "organizer", "events"]
+						},
+						"description": "Crée un nouvel événement. Nécessite ROLE_ORGANIZER."
+					},
+					"response": []
+				},
+				{
+					"name": "Modifier un événement",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{organizer_email}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{organizer_password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Conférence Spring Security - Mise à jour\",\n  \"description\": \"Description mise à jour\",\n  \"location\": \"Lyon, France\",\n  \"dateTime\": \"2025-12-26T15:00:00\",\n  \"capacity\": 150\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/organizer/events/{{event_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "organizer", "events", "{{event_id}}"]
+						},
+						"description": "Met à jour un événement. Seul l'organisateur propriétaire peut modifier son événement. Nécessite ROLE_ORGANIZER."
+					},
+					"response": []
+				},
+				{
+					"name": "Supprimer un événement",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{organizer_email}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{organizer_password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/organizer/events/{{event_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "organizer", "events", "{{event_id}}"]
+						},
+						"description": "Supprime un événement. Seul l'organisateur propriétaire peut supprimer son événement. Nécessite ROLE_ORGANIZER."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints nécessitant ROLE_ORGANIZER"
+		},
+		{
+			"name": "Admin Endpoints",
+			"item": [
+				{
+					"name": "Liste de tous les utilisateurs",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{admin_email}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{admin_password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/users",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "users"]
+						},
+						"description": "Récupère la liste de tous les utilisateurs. Nécessite ROLE_ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Modifier le rôle d'un utilisateur",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{admin_email}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{admin_password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"role\": \"ROLE_ORGANIZER\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/users/{{user_id}}/role",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "users", "{{user_id}}", "role"]
+						},
+						"description": "Modifie le rôle d'un utilisateur. Les rôles valides sont : ROLE_USER, ROLE_ORGANIZER, ROLE_ADMIN. Nécessite ROLE_ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Supprimer un événement (Admin)",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{admin_email}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{admin_password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/events/{{event_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "events", "{{event_id}}"]
+						},
+						"description": "Supprime un événement (admin peut supprimer n'importe quel événement). Nécessite ROLE_ADMIN."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints nécessitant ROLE_ADMIN"
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "user_email",
+			"value": "user@example.com",
+			"type": "string"
+		},
+		{
+			"key": "user_password",
+			"value": "password123",
+			"type": "string"
+		},
+		{
+			"key": "organizer_email",
+			"value": "organizer@example.com",
+			"type": "string"
+		},
+		{
+			"key": "organizer_password",
+			"value": "password123",
+			"type": "string"
+		},
+		{
+			"key": "admin_email",
+			"value": "admin@example.com",
+			"type": "string"
+		},
+		{
+			"key": "admin_password",
+			"value": "password123",
+			"type": "string"
+		},
+		{
+			"key": "event_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
+
