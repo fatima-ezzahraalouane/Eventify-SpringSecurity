@@ -89,6 +89,19 @@ public class RegistrationServiceImpl implements RegistrationService {
                 .toList();
     }
 
-    
+    @Override
+    @Transactional
+    public RegistrationResponseDTO cancelRegistration(Long userId, Long eventId) {
+        Registration registration = registrationRepository.findByUserIdAndEventId(userId, eventId)
+                .orElseThrow(() -> new EventNotFoundException("Inscription non trouvée pour cet utilisateur et cet événement"));
+
+        if (!registration.getUser().getId().equals(userId)) {
+            throw new UnauthorizedActionException("Vous n'êtes pas autorisé à annuler cette inscription");
+        }
+
+        registration.setStatus(RegistrationStatus.CANCELLED);
+        Registration updated = registrationRepository.save(registration);
+        return registrationMapper.toDto(updated);
+    }
 }
 
