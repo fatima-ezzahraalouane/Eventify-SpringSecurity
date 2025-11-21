@@ -45,6 +45,38 @@ public class SecurityConfig {
         return new ProviderManager(List.of(customAuthenticationProvider));
     }
 
-    
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                
+                .csrf(csrf -> csrf.disable())
+                
+                
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                
+                
+                .httpBasic(httpBasic -> httpBasic
+                        .authenticationEntryPoint(customAuthenticationEntryPoint))
+                
+                
+                .authorizeHttpRequests(auth -> auth
+                        
+                        .requestMatchers("/api/public/**").permitAll()                       
+                        
+                        .requestMatchers("/api/user/**").hasRole("USER")                       
+                        
+                        .requestMatchers("/api/organizer/**").hasRole("ORGANIZER")                       
+                        
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        
+                        .anyRequest().authenticated())
+                
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler));
+
+        return http.build();
+    }
 }
 
