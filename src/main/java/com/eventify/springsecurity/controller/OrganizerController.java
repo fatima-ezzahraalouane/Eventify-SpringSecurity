@@ -20,6 +20,11 @@ public class OrganizerController {
     private final EventService eventService;
     private final UserService userService;
 
+    public OrganizerController(EventService eventService, UserService userService) {
+        this.eventService = eventService;
+        this.userService = userService;
+    }
+
     
 }
 
