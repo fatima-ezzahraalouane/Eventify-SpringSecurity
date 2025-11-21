@@ -48,6 +48,15 @@ public class OrganizerController {
         return ResponseEntity.ok(updatedEvent);
     }
 
-    
+    @DeleteMapping("/events/{id}")
+    public ResponseEntity<Void> deleteEvent(
+            @PathVariable Long id,
+            Authentication authentication) {
+        String email = ((UserDetails) authentication.getPrincipal()).getUsername();
+        UserResponseDTO user = userService.getUserByEmail(email);
+        
+        eventService.deleteEvent(id, user.getId());
+        return ResponseEntity.noContent().build();
+    }
 }
 
