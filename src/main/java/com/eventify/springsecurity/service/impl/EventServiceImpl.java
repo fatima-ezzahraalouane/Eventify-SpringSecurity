@@ -20,6 +20,18 @@ import java.util.List;
 @Service
 public class EventServiceImpl implements EventService {
 
+    private final EventRepository eventRepository;
+    private final UserRepository userRepository;
+    private final EventMapper eventMapper;
+
+    public EventServiceImpl(EventRepository eventRepository,
+                           UserRepository userRepository,
+                           EventMapper eventMapper) {
+        this.eventRepository = eventRepository;
+        this.userRepository = userRepository;
+        this.eventMapper = eventMapper;
+    }
+
     
 }
 
