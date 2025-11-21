@@ -37,6 +37,10 @@ public class AdminController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    
+    @DeleteMapping("/events/{id}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
+        eventService.deleteEventByAdmin(id);
+        return ResponseEntity.noContent().build();
+    }
 }
 
