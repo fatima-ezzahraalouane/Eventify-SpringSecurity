@@ -21,6 +21,21 @@ import java.util.List;
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
 
+    private final RegistrationRepository registrationRepository;
+    private final EventRepository eventRepository;
+    private final UserRepository userRepository;
+    private final RegistrationMapper registrationMapper;
+
+    public RegistrationServiceImpl(RegistrationRepository registrationRepository,
+                                  EventRepository eventRepository,
+                                  UserRepository userRepository,
+                                  RegistrationMapper registrationMapper) {
+        this.registrationRepository = registrationRepository;
+        this.eventRepository = eventRepository;
+        this.userRepository = userRepository;
+        this.registrationMapper = registrationMapper;
+    }
+
     
 }
 
