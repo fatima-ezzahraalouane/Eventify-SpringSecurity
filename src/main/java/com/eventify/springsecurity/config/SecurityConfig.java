@@ -23,6 +23,10 @@ import java.util.List;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private final CustomAuthenticationProvider customAuthenticationProvider;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+
     
 }
 
