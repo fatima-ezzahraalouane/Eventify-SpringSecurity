@@ -16,6 +16,9 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
 
+    private final UserService userService;
+    private final RegistrationService registrationService;
+
     
 }
 
