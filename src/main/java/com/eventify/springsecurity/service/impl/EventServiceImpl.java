@@ -78,8 +78,9 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public void deleteEvent(Long id, Long organizerId) {
-        Event event = eventRepository.findById(id)
-                .orElseThrow(() -> new EventNotFoundException("Événement non trouvé avec l'ID : " + id));
+        if (!eventRepository.existsById(id)) {
+            throw new EventNotFoundException("Événement non trouvé avec l'ID : " + id);
+        }
 
         if (!eventRepository.existsByIdAndOrganizerId(id, organizerId)) {
             throw new UnauthorizedActionException("Vous n'êtes pas autorisé à supprimer cet événement");
