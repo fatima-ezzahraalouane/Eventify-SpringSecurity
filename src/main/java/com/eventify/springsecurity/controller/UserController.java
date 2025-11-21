@@ -24,6 +24,13 @@ public class UserController {
         this.registrationService = registrationService;
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<UserResponseDTO> getProfile(Authentication authentication) {
+        String email = ((UserDetails) authentication.getPrincipal()).getUsername();
+        UserResponseDTO user = userService.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+
     
 }
 
