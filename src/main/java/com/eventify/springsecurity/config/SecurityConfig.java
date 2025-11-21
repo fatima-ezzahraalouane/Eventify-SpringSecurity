@@ -27,6 +27,14 @@ public class SecurityConfig {
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
+    public SecurityConfig(@Lazy CustomAuthenticationProvider customAuthenticationProvider,
+                         CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
+                         CustomAccessDeniedHandler customAccessDeniedHandler) {
+        this.customAuthenticationProvider = customAuthenticationProvider;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
+    }
+
     
 }
 
