@@ -16,6 +16,14 @@ import java.util.List;
 @RequestMapping("/api/public")
 public class PublicController {
 
+    private final UserService userService;
+    private final EventService eventService;
+
+    public PublicController(UserService userService, EventService eventService) {
+        this.userService = userService;
+        this.eventService = eventService;
+    }
+
     
 }
 
