@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface RegistrationService {
 
+    RegistrationResponseDTO registerToEvent(Long userId, Long eventId);
+
     
 }
 
