@@ -10,6 +10,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventResponseDTO {
-    
+    private Long id;
+    private String title;
+    private String description;
+    private String location;
+    private LocalDateTime dateTime;
+    private Integer capacity;
+    private Long organizerId;
+    private String organizerName;
+    private Integer currentRegistrations;
 }
 
