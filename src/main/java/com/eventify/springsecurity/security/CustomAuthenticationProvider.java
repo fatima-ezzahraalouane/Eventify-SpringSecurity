@@ -22,6 +22,24 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         this.passwordEncoder = passwordEncoder;
     }
 
-    
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        String email = authentication.getName();
+        String password = authentication.getCredentials().toString();
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+
+        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+            throw new BadCredentialsException("Identifiants invalides");
+        }
+
+        return new UsernamePasswordAuthenticationToken(
+                userDetails,
+                password,
+                userDetails.getAuthorities()
+        );
+    }
+
+
 }
 
