@@ -24,6 +24,12 @@ public class PublicController {
         this.eventService = eventService;
     }
 
+    @PostMapping("/users")
+    public ResponseEntity<UserResponseDTO> registerUser(@Valid @RequestBody UserCreateDTO dto) {
+        UserResponseDTO createdUser = userService.createUser(dto);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    }
+
     
 }
 
