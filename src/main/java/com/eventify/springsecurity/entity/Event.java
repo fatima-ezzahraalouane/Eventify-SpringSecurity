@@ -52,6 +52,7 @@ public class Event {
 
     // Relation OneToMany avec Registration
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Registration> registrations = new ArrayList<>();
 }
 
