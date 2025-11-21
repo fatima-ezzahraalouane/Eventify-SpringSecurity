@@ -42,6 +42,14 @@ public class UserController {
         return new ResponseEntity<>(registration, HttpStatus.CREATED);
     }
 
-    
+    @GetMapping("/registrations")
+    public ResponseEntity<List<RegistrationResponseDTO>> getUserRegistrations(
+            Authentication authentication) {
+        String email = ((UserDetails) authentication.getPrincipal()).getUsername();
+        UserResponseDTO user = userService.getUserByEmail(email);
+        
+        List<RegistrationResponseDTO> registrations = registrationService.getUserRegistrations(user.getId());
+        return ResponseEntity.ok(registrations);
+    }
 }
 
