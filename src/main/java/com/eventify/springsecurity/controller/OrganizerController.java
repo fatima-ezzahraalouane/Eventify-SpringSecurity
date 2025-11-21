@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/organizer")
 public class OrganizerController {
 
+    private final EventService eventService;
+    private final UserService userService;
+
     
 }
 
