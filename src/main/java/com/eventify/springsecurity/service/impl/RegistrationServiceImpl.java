@@ -77,6 +77,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RegistrationResponseDTO> getUserRegistrations(Long userId) {
 
         if (!userRepository.existsById(userId)) {
