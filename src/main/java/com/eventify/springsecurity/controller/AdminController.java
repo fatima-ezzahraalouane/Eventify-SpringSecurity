@@ -18,6 +18,11 @@ public class AdminController {
     private final UserService userService;
     private final EventService eventService;
 
+    public AdminController(UserService userService, EventService eventService) {
+        this.userService = userService;
+        this.eventService = eventService;
+    }
+
     
 }
 
