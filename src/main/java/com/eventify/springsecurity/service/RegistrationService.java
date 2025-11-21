@@ -10,6 +10,6 @@ public interface RegistrationService {
 
     List<RegistrationResponseDTO> getUserRegistrations(Long userId);
 
-
+    RegistrationResponseDTO cancelRegistration(Long userId, Long eventId);
 }
 
