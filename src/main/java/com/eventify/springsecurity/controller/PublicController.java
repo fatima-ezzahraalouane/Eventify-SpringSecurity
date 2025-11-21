@@ -30,6 +30,10 @@ public class PublicController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    
+    @GetMapping("/events")
+    public ResponseEntity<List<EventResponseDTO>> getAllEvents() {
+        List<EventResponseDTO> events = eventService.getAllEvents();
+        return ResponseEntity.ok(events);
+    }
 }
 
