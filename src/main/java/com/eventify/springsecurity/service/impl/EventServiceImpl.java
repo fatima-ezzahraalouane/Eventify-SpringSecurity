@@ -32,6 +32,69 @@ public class EventServiceImpl implements EventService {
         this.eventMapper = eventMapper;
     }
 
-    
+    @Override
+    public List<EventResponseDTO> getAllEvents() {
+        return eventRepository.findAll()
+                .stream()
+                .map(eventMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public EventResponseDTO getEventById(Long id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new EventNotFoundException("Événement non trouvé avec l'ID : " + id));
+        return eventMapper.toDto(event);
+    }
+
+    @Override
+    @Transactional
+    public EventResponseDTO createEvent(EventCreateDTO dto, Long organizerId) {
+        User organizer = userRepository.findById(organizerId)
+                .orElseThrow(() -> new UserNotFoundException("Organisateur non trouvé avec l'ID : " + organizerId));
+
+        Event event = eventMapper.toEntity(dto);
+        event.setOrganizer(organizer);
+        
+        Event saved = eventRepository.save(event);
+        return eventMapper.toDto(saved);
+    }
+
+    @Override
+    @Transactional
+    public EventResponseDTO updateEvent(Long id, EventUpdateDTO dto, Long organizerId) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new EventNotFoundException("Événement non trouvé avec l'ID : " + id));
+
+        if (!eventRepository.existsByIdAndOrganizerId(id, organizerId)) {
+            throw new UnauthorizedActionException("Vous n'êtes pas autorisé à modifier cet événement");
+        }
+
+        eventMapper.updateEntityFromDto(dto, event);
+        Event updated = eventRepository.save(event);
+        return eventMapper.toDto(updated);
+    }
+
+    @Override
+    @Transactional
+    public void deleteEvent(Long id, Long organizerId) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new EventNotFoundException("Événement non trouvé avec l'ID : " + id));
+
+        if (!eventRepository.existsByIdAndOrganizerId(id, organizerId)) {
+            throw new UnauthorizedActionException("Vous n'êtes pas autorisé à supprimer cet événement");
+        }
+
+        eventRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteEventByAdmin(Long id) {
+        if (!eventRepository.existsById(id)) {
+            throw new EventNotFoundException("Événement non trouvé avec l'ID : " + id);
+        }
+        eventRepository.deleteById(id);
+    }
 }
 
