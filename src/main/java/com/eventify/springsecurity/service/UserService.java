@@ -19,4 +19,6 @@ public interface UserService {
     void deleteUser(Long id);
 
     UserResponseDTO changeUserRole(Long userId, ChangeRoleRequest request);
+
+    UserResponseDTO getUserByEmail(String email);
 }
