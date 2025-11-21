@@ -36,6 +36,46 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.registrationMapper = registrationMapper;
     }
 
+    @Override
+    @Transactional
+    public RegistrationResponseDTO registerToEvent(Long userId, Long eventId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé avec l'ID : " + userId));
+
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new EventNotFoundException("Événement non trouvé avec l'ID : " + eventId));
+
+        if (registrationRepository.existsByUserIdAndEventId(userId, eventId)) {
+            Registration existingRegistration = registrationRepository.findByUserIdAndEventId(userId, eventId)
+                    .orElseThrow();
+            
+            if (existingRegistration.getStatus() == RegistrationStatus.CANCELLED) {
+                existingRegistration.setStatus(RegistrationStatus.REGISTERED);
+                Registration updated = registrationRepository.save(existingRegistration);
+                return registrationMapper.toDto(updated);
+            }
+            
+            throw new UnauthorizedActionException("Vous êtes déjà inscrit à cet événement");
+        }
+
+        long currentRegistrations = registrationRepository.countByEventIdAndStatus(
+                eventId, RegistrationStatus.REGISTERED);
+        
+        if (currentRegistrations >= event.getCapacity()) {
+            throw new UnauthorizedActionException("L'événement est complet. Capacité maximale : " + event.getCapacity());
+        }
+
+        Registration registration = Registration.builder()
+                .user(user)
+                .event(event)
+                .status(RegistrationStatus.REGISTERED)
+                .build();
+
+        Registration saved = registrationRepository.save(registration);
+        return registrationMapper.toDto(saved);
+    }
+
     
 }
 
