@@ -33,6 +33,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<EventResponseDTO> getAllEvents() {
         return eventRepository.findAll()
                 .stream()
@@ -41,6 +42,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public EventResponseDTO getEventById(Long id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new EventNotFoundException("Événement non trouvé avec l'ID : " + id));
