@@ -15,6 +15,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;    
 
 import java.util.List;
 
@@ -36,8 +38,15 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Profile("!test")
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    @Profile("test")
+    public PasswordEncoder passwordEncoderTest() {
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
