@@ -76,6 +76,19 @@ public class RegistrationServiceImpl implements RegistrationService {
         return registrationMapper.toDto(saved);
     }
 
+    @Override
+    public List<RegistrationResponseDTO> getUserRegistrations(Long userId) {
+
+        if (!userRepository.existsById(userId)) {
+            throw new UserNotFoundException("Utilisateur non trouvé avec l'ID : " + userId);
+        }
+
+        return registrationRepository.findByUserId(userId)
+                .stream()
+                .map(registrationMapper::toDto)
+                .toList();
+    }
+
     
 }
 
