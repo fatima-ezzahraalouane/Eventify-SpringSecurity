@@ -23,6 +23,22 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         this.objectMapper = objectMapper;
     }
 
-    
+    @Override
+    public void commence(HttpServletRequest request,
+                        HttpServletResponse response,
+                        AuthenticationException authException) throws IOException, ServletException {
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .error("Unauthorized")
+                .message("Authentification requise. Veuillez fournir des identifiants valides.")
+                .path(request.getRequestURI())
+                .build();
+
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+        objectMapper.writeValue(response.getWriter(), error);
+    }
 }
 
