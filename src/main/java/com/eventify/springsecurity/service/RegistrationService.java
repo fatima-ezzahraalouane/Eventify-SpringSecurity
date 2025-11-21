@@ -8,6 +8,8 @@ public interface RegistrationService {
 
     RegistrationResponseDTO registerToEvent(Long userId, Long eventId);
 
-    
+    List<RegistrationResponseDTO> getUserRegistrations(Long userId);
+
+
 }
 
