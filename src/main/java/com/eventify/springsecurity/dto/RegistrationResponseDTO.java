@@ -10,6 +10,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegistrationResponseDTO {
-    
+    private Long id;
+    private Long userId;
+    private String userName;
+    private Long eventId;
+    private String eventTitle;
+    private LocalDateTime registeredAt;
+    private String status;
 }
 
