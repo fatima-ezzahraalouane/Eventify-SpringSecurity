@@ -23,6 +23,12 @@ public class AdminController {
         this.eventService = eventService;
     }
 
+    @GetMapping("/users")
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        List<UserResponseDTO> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
     
 }
 
